@@ -3,9 +3,6 @@ Carl Pickering 16th November 2025'''
 from enum import StrEnum
 from abc import ABC, abstractmethod
 
-class Rotation(StrEnum):
-    LEFT = "LEFT"
-    RIGHT = "RIGHT"
 
 class Directions(StrEnum):
     '''Directions
@@ -18,11 +15,6 @@ class Directions(StrEnum):
 
     def __init__(self, newdir=NORTH):
         pass
-        #print(direction in Directions)
-        #self.value = direction
-        #self.name = direction
-        #if direction.value for member in Directions:
-        #    self.direction = direction
 
     def whats_left(self):
         match self.value:
@@ -59,7 +51,7 @@ class Table:
         return self.y_max
 
 class Robot:
-    #direction = Directions()
+    '''This stores and operates on all the details of the robot position and status'''
     def __init__(self, table):
         self.table = table
         self.placed = False
@@ -71,10 +63,12 @@ class Robot:
         self.direction = direction
 
     def turn_left(self):
-        self.direction = self.direction.whats_left()
+        if self.placed:
+            self.direction = self.direction.whats_left()
 
     def turn_right(self):
-        self.direction = self.direction.whats_right()
+        if self.placed:
+            self.direction = self.direction.whats_right()
 
     def move(self):
         if self.placed:
@@ -95,7 +89,6 @@ class Robot:
                     if self.x>0:
                         self.x = self.x - 1
 
-
     def place(self, x, y, f):
         if (x>self.table.get_x_max() or x<0):
             raise ValueError
@@ -108,12 +101,13 @@ class Robot:
 
 
 class RobotCommand(ABC):
+    '''The interface class from which we derive all our commands, this must not be instantiated.'''
     def __init__(self, args=""):
         self.args = args
 
     @abstractmethod
     def execute(self, robot):
-        pass
+        '''This each execute goes in here.'''
 
 class RobotPlaceCommand(RobotCommand):
     ''' This class processes the PLACE command. We don't yet know the size of the table so 
@@ -129,11 +123,9 @@ class RobotPlaceCommand(RobotCommand):
         robot.place(self.x, self.y, self.f)
         print("Robot placed")
 
-
 class RobotReportCommand(RobotCommand):
     def execute(self, robot):
         print("REPORT ", robot.x, robot.y, robot.direction)
-
 
 class RobotMoveCommand(RobotCommand):
     def execute(self, robot):
@@ -148,6 +140,8 @@ class RobotRotateRightCommand(RobotCommand):
         robot.turn_right()
 
 class CommandObjectFactory:
+    '''This class contains the parser to convert command lines into objects and the 
+    functions to process them.'''
     def handle_place(self, args):
         print("handle_place" , args)
         return RobotPlaceCommand(args)
@@ -176,7 +170,11 @@ class CommandObjectFactory:
         "REPORT" : handle_report
     }
 
-    def command_handler(self, commandline):
+    def command_parser(self, commandline):
+        ''' Take in command line and return command object to process it. The
+        command object doesn't know the status of the robot before parsing. 
+        Processing is handled separately. This way if necessary commands could
+        be queued up.'''
         separated_command = commandline.split()
         if len(separated_command)==0:
             return
@@ -203,37 +201,37 @@ if __name__=='__main__':
     r.turn_left()
     print("turned to", r.direction)
     a = CommandObjectFactory()
-    c= a.command_handler("PLACE 2,3,WEST")
+    c= a.command_parser("PLACE 2,3,WEST")
     c.execute(r)
-    c= a.command_handler("REPORT")
+    c= a.command_parser("REPORT")
     c.execute(r)
-    c = a.command_handler("MOVE")
+    c = a.command_parser("MOVE")
     c.execute(r)
-    c= a.command_handler("REPORT")
+    c= a.command_parser("REPORT")
     c.execute(r)
-    c = a.command_handler("RIGHT")
+    c = a.command_parser("RIGHT")
     c.execute(r)
-    c= a.command_handler("REPORT")
+    c= a.command_parser("REPORT")
     c.execute(r)
-    c = a.command_handler("MOVE")
+    c = a.command_parser("MOVE")
     c.execute(r)
-    c= a.command_handler("REPORT")
+    c= a.command_parser("REPORT")
     c.execute(r)
-    c = a.command_handler("MOVE")
+    c = a.command_parser("MOVE")
     c.execute(r)
-    c= a.command_handler("REPORT")
+    c= a.command_parser("REPORT")
     c.execute(r)
-    c = a.command_handler("MOVE")
+    c = a.command_parser("MOVE")
     c.execute(r)
-    c= a.command_handler("REPORT")
+    c= a.command_parser("REPORT")
     c.execute(r)
-    c = a.command_handler("MOVE")
+    c = a.command_parser("MOVE")
     c.execute(r)
-    c= a.command_handler("REPORT")
+    c= a.command_parser("REPORT")
     c.execute(r)
-    c = a.command_handler("MOVE")
+    c = a.command_parser("MOVE")
     c.execute(r)
-    c= a.command_handler("REPORT")
+    c= a.command_parser("REPORT")
     c.execute(r)
 
 
