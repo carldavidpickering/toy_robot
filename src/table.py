@@ -2,6 +2,7 @@
 Carl Pickering 16th November 2025'''
 from enum import StrEnum
 from abc import ABC, abstractmethod
+from command_factory import CommandObjectFactory
 
 
 class Directions(StrEnum):
@@ -139,9 +140,7 @@ class RobotRotateRightCommand(RobotCommand):
     def execute(self, robot):
         robot.turn_right()
 
-class CommandObjectFactory:
-    '''This class contains the parser to convert command lines into objects and the 
-    functions to process them.'''
+class RobotCommandMakers:
     def handle_place(self, args):
         print("handle_place" , args)
         return RobotPlaceCommand(args)
@@ -170,23 +169,7 @@ class CommandObjectFactory:
         "REPORT" : handle_report
     }
 
-    def command_parser(self, commandline):
-        ''' Take in command line and return command object to process it. The
-        command object doesn't know the status of the robot before parsing. 
-        Processing is handled separately. This way if necessary commands could
-        be queued up.'''
-        separated_command = commandline.split()
-        if len(separated_command)==0:
-            return
-        if len(separated_command)==1:
-            args=""
-        else:
-            args = separated_command[1]
 
-        #print("separated command=", separated_command)
-        handler = self.command_list[separated_command[0]]
-        #print(commandline)
-        return handler(self,args)
 
 
 if __name__=='__main__':
@@ -200,7 +183,7 @@ if __name__=='__main__':
     print("robot currently", r.direction)
     r.turn_left()
     print("turned to", r.direction)
-    a = CommandObjectFactory()
+    a = CommandObjectFactory(RobotCommandMakers().command_list)
     c= a.command_parser("PLACE 2,3,WEST")
     c.execute(r)
     c= a.command_parser("REPORT")
