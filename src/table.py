@@ -1,43 +1,11 @@
 ''' Table for Toy Robot Simulator
 Carl Pickering 16th November 2025'''
-from enum import StrEnum
 from abc import ABC, abstractmethod
 from command_factory import CommandObjectFactory
+from compass_directions import Directions
 
 
-class Directions(StrEnum):
-    '''Directions
-    An enumerated type that provides compass directions with left and right rotations.
-    '''
-    NORTH = "NORTH"
-    EAST = "EAST"
-    SOUTH = "SOUTH"
-    WEST = "WEST"
 
-    def __init__(self, newdir=NORTH):
-        pass
-
-    def whats_left(self):
-        match self.value:
-            case Directions.NORTH:
-                return Directions.EAST
-            case Directions.EAST:
-                return Directions.SOUTH
-            case Directions.SOUTH:
-                return Directions.WEST
-            case Directions.WEST:
-                return Directions.NORTH
-
-    def whats_right(self):
-        match self.value:
-            case Directions.NORTH:
-                return Directions.WEST
-            case Directions.WEST:
-                return Directions.SOUTH
-            case Directions.SOUTH:
-                return Directions.EAST
-            case Directions.EAST:
-                return Directions.NORTH
 
 
 class Table:
