@@ -1,7 +1,7 @@
 '''Directions - A class to handle compass directions'''
 from enum import StrEnum
 
-class Directions(StrEnum):
+class CompassDirections(StrEnum):
     '''Directions
     An enumerated type that provides compass directions with left and right rotations.
     '''
@@ -17,24 +17,24 @@ class Directions(StrEnum):
         '''Uses current direction to indicate where we would point if we
            turned left (anticlockwise).'''
         match self.value:
-            case Directions.NORTH:
-                return Directions.EAST
-            case Directions.EAST:
-                return Directions.SOUTH
-            case Directions.SOUTH:
-                return Directions.WEST
-            case Directions.WEST:
-                return Directions.NORTH
+            case CompassDirections.NORTH:
+                return CompassDirections.EAST
+            case CompassDirections.EAST:
+                return CompassDirections.SOUTH
+            case CompassDirections.SOUTH:
+                return CompassDirections.WEST
+            case CompassDirections.WEST:
+                return CompassDirections.NORTH
 
     def whats_right(self):
         '''Uses current direction to indicate where we would point if we
            turned right (clockwise).'''
         match self.value:
-            case Directions.NORTH:
-                return Directions.WEST
-            case Directions.WEST:
-                return Directions.SOUTH
-            case Directions.SOUTH:
-                return Directions.EAST
-            case Directions.EAST:
-                return Directions.NORTH
+            case CompassDirections.NORTH:
+                return CompassDirections.WEST
+            case CompassDirections.WEST:
+                return CompassDirections.SOUTH
+            case CompassDirections.SOUTH:
+                return CompassDirections.EAST
+            case CompassDirections.EAST:
+                return CompassDirections.NORTH

@@ -2,10 +2,7 @@
 Carl Pickering 16th November 2025'''
 from abc import ABC, abstractmethod
 from command_factory import CommandObjectFactory
-from compass_directions import Directions
-
-
-
+from compass_directions import CompassDirections
 
 
 class Table:
@@ -26,7 +23,7 @@ class Robot:
         self.placed = False
         self.x = 0
         self.y = 0
-        self.direction = Directions(Directions.NORTH)
+        self.direction = CompassDirections(CompassDirections.NORTH)
 
     def set_direction(self, direction):
         self.direction = direction
@@ -42,19 +39,19 @@ class Robot:
     def move(self):
         if self.placed:
             match self.direction:
-                case Directions.NORTH:
+                case CompassDirections.NORTH:
                     if self.y<self.table.get_y_max():
                         self.y = self.y + 1
 
-                case Directions.SOUTH:
+                case CompassDirections.SOUTH:
                     if self.y>0:
                         self.y = self.y - 1
 
-                case Directions.EAST:
+                case CompassDirections.EAST:
                     if self.x<self.table.get_x_max():
                         self.x = self.x + 1
 
-                case Directions.WEST:
+                case CompassDirections.WEST:
                     if self.x>0:
                         self.x = self.x - 1
 
@@ -63,7 +60,7 @@ class Robot:
             raise ValueError
         if (y>self.table.get_y_max() or y<0):
             raise ValueError
-        self.direction=Directions(f)
+        self.direction=CompassDirections(f)
         self.x = x
         self.y = y
         self.placed = True
@@ -86,7 +83,7 @@ class RobotPlaceCommand(RobotCommand):
         print("parameters=", parameters)
         self.x = int(parameters[0])
         self.y = int(parameters[1])
-        self.f = Directions(parameters[2])
+        self.f = CompassDirections(parameters[2])
 
     def execute(self,robot):
         robot.place(self.x, self.y, self.f)
@@ -141,7 +138,7 @@ class RobotCommandMakers:
 
 
 if __name__=='__main__':
-    d = Directions("EAST")
+    d = CompassDirections("EAST")
     #d = Directions()
     #d.turn_left()
     d = d.whats_left()
