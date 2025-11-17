@@ -2,8 +2,6 @@ Toy Robot Simulator
 ===================
 
 Carl Pickering 17th November 2025
-cdpickering@gmail.com
-07773 325770
 
 This is a toy robot simulator. To start it run:
 
