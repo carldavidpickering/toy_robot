@@ -60,7 +60,7 @@ class Robot:
 
     def report(self):
         if self.placed:
-           self.output_file.writelines("REPORT "+str(self.x)+","+str(self.y)+","+ str(self.direction)+"\n")
+            self.output_file.writelines("REPORT "+str(self.x)+","+str(self.y)+","+ str(self.direction)+"\n")
 
 
 class RobotCommand(ABC):
