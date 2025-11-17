@@ -13,9 +13,9 @@ class CompassDirections(StrEnum):
     def __init__(self, newdir=NORTH):
         pass
 
-    def whats_left(self):
+    def whats_right(self):
         '''Uses current direction to indicate where we would point if we
-           turned left (anticlockwise).'''
+           turned right (clockwise).'''
         match self.value:
             case CompassDirections.NORTH:
                 return CompassDirections.EAST
@@ -26,9 +26,9 @@ class CompassDirections(StrEnum):
             case CompassDirections.WEST:
                 return CompassDirections.NORTH
 
-    def whats_right(self):
+    def whats_left(self):
         '''Uses current direction to indicate where we would point if we
-           turned right (clockwise).'''
+           turned left (anticlockwise).'''
         match self.value:
             case CompassDirections.NORTH:
                 return CompassDirections.WEST
