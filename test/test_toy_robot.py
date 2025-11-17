@@ -30,7 +30,6 @@ def test_turn_left_when_placed():
     r.turn_left()
     assert CompassDirections.NORTH == r.direction
 
-
 def test_turn_right_when_not_placed():
     t = Table(5,4)
     r = Robot(t)
@@ -46,3 +45,76 @@ def test_turn_right_when_placed():
     assert CompassDirections.EAST == r.direction
     r.turn_right()
     assert CompassDirections.SOUTH == r.direction
+
+def test_move_when_not_placed():
+    t = Table(5,4)
+    r = Robot(t)
+    assert 0 == r.x
+    assert 0 == r.y
+    r.move()
+    assert 0 == r.x
+    assert 0 == r.y
+
+def test_move_north():
+    t = Table(4,4)
+    r = Robot(t)
+    r.place(1,1,CompassDirections.NORTH)
+    assert 1 == r.x
+    assert 1 == r.y
+    r.move()
+    assert 1 == r.x
+    assert 2 == r.y
+    r.move()
+    assert 1 == r.x
+    assert 3 == r.y
+    r.move()
+    assert 1 == r.x
+    assert 3 == r.y
+
+def test_move_south():
+    t = Table(4,4)
+    r = Robot(t)
+    r.place(1,2,CompassDirections.SOUTH)
+    assert 1 == r.x
+    assert 2 == r.y
+    r.move()
+    assert 1 == r.x
+    assert 1 == r.y
+    r.move()
+    assert 1 == r.x
+    assert 0 == r.y
+    r.move()
+    assert 1 == r.x
+    assert 0 == r.y
+
+def test_move_east():
+    t = Table(4,4)
+    r = Robot(t)
+    r.place(1,2,CompassDirections.EAST)
+    assert 1 == r.x
+    assert 2 == r.y
+    r.move()
+    assert 2 == r.x
+    assert 2 == r.y
+    r.move()
+    assert 3 == r.x
+    assert 2 == r.y
+    r.move()
+    assert 3 == r.x
+    assert 2 == r.y
+
+def test_move_west():
+    t = Table(4,4)
+    r = Robot(t)
+    r.place(2,2,CompassDirections.WEST)
+    assert 2 == r.x
+    assert 2 == r.y
+    r.move()
+    assert 1 == r.x
+    assert 2 == r.y
+    r.move()
+    assert 0 == r.x
+    assert 2 == r.y
+    r.move()
+    assert 0 == r.x
+    assert 2 == r.y
