@@ -3,15 +3,21 @@ from abc import ABC, abstractmethod
 from command_factory import CommandObjectFactory
 from compass_directions import CompassDirections
 from table import Table
+from sys import stdout, stdin, stderr
 
 class Robot:
     '''This stores and operates on all the details of the robot position and status'''
-    def __init__(self, table):
+    def __init__(self, table, input_file=stdin, output_file=stdout, error_file=stderr):
         self.table = table
         self.placed = False
         self.x = 0
         self.y = 0
         self.direction = CompassDirections(CompassDirections.NORTH)
+        self.output_file = stdout
+        self.error_file = stderr
+
+    def set_output_file(self, output_file):
+        self.output_file = output_file
 
     def set_direction(self, direction):
         self.direction = direction
@@ -52,6 +58,9 @@ class Robot:
         else:
             raise ValueError("Initial position "+str(x)+","+str(y)+"Out of range.")
 
+    def report(self):
+        if self.placed:
+           self.output_file.writelines("REPORT "+str(self.x)+","+str(self.y)+","+ str(self.direction)+"\n")
 
 
 class RobotCommand(ABC):
@@ -79,7 +88,8 @@ class RobotPlaceCommand(RobotCommand):
 
 class RobotReportCommand(RobotCommand):
     def execute(self, robot):
-        print("REPORT ", robot.x, robot.y, robot.direction)
+        robot.report()
+        #print("REPORT ", robot.x, robot.y, robot.direction)
 
 class RobotMoveCommand(RobotCommand):
     def execute(self, robot):
