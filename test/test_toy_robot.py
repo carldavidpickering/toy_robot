@@ -118,3 +118,24 @@ def test_move_west():
     r.move()
     assert 0 == r.x
     assert 2 == r.y
+
+def test_out_of_bounds_place_xy_dir():
+    t = Table(4,4)
+    r = Robot(t)
+    with pytest.raises(ValueError):
+        r.place(8,2,CompassDirections.WEST)
+    assert 0 == r.x
+    assert 0 == r.y
+    assert CompassDirections.NORTH == r.direction
+
+    with pytest.raises(ValueError):
+        r.place(2,99,CompassDirections.WEST)
+    assert 0 == r.x
+    assert 0 == r.y
+    assert CompassDirections.NORTH == r.direction
+
+    with pytest.raises(ValueError):
+        r.place(2,2,"UP")
+    assert 0 == r.x
+    assert 0 == r.y
+    assert CompassDirections.NORTH == r.direction
