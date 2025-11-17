@@ -1,3 +1,5 @@
+
+from sys import stdout, stdin, stderr
 import pytest
 from table import Table
 from toy_robot import Robot
@@ -139,3 +141,30 @@ def test_out_of_bounds_place_xy_dir():
     assert 0 == r.x
     assert 0 == r.y
     assert CompassDirections.NORTH == r.direction
+
+def test_report_before_place(capsys):
+    t = Table(4,4)
+    r = Robot(t)
+    r.report()
+    captured = capsys.readouterr()
+    assert captured.out==""
+
+def test_report_after_place(capsys):
+    t = Table(4,4)
+    r = Robot(t)
+    r.place(1,1,CompassDirections.EAST)
+    assert 1==r.x
+    assert True == r.placed
+
+    r.report()
+    captured = capsys.readouterr()
+    assert captured.out=="REPORT 1,1,EAST\n"
+    r.move()
+    r.report()
+    captured = capsys.readouterr()
+    assert captured.out=="REPORT 2,1,EAST\n"
+    r.turn_left()
+    r.report()
+    captured = capsys.readouterr()
+    assert captured.out=="REPORT 2,1,NORTH\n"
+

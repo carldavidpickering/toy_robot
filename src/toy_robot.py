@@ -13,17 +13,12 @@ from sys import stdout, stdin, stderr
 
 class Robot:
     '''This stores and operates on all the details of the robot position and status'''
-    def __init__(self, table, input_file=stdin, output_file=stdout, error_file=stderr):
+    def __init__(self, table):
         self.table = table
         self.placed = False
         self.x = 0
         self.y = 0
         self.direction = CompassDirections(CompassDirections.NORTH)
-        self.output_file = stdout
-        self.error_file = stderr
-
-    def set_output_file(self, output_file):
-        self.output_file = output_file
 
     def set_direction(self, direction):
         self.direction = direction
@@ -66,7 +61,7 @@ class Robot:
 
     def report(self):
         if self.placed:
-            self.output_file.writelines("REPORT "+str(self.x)+","+str(self.y)+","+ str(self.direction)+"\n")
+            print("REPORT "+str(self.x)+","+str(self.y)+","+ str(self.direction))
 
 
 class RobotCommand(ABC):
