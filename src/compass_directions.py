@@ -1,4 +1,5 @@
-'''Directions - A class to handle compass directions'''
+'''Directions - A class to handle compass directions
+Carl Pickering 17th November 2025'''
 from enum import StrEnum
 
 class CompassDirections(StrEnum):

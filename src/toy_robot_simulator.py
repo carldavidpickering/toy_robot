@@ -2,6 +2,7 @@
 command_line_interface
 
 A basic command line interface to allow for user interaction.
+Carl Pickering 17th November 2025
 """
 from sys import stdin, stdout, stderr
 from toy_robot import Robot, CommandObjectFactory, RobotCommandMakers
@@ -37,4 +38,5 @@ class CommandLineInterface:
 if __name__=="__main__":
     cli = CommandLineInterface(stdin, stdout, stdout)
     while cli.process_command():
-        print(">")
+        stdout.write(">")
+        stdout.flush()
