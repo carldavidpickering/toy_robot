@@ -56,7 +56,7 @@ class Robot:
             self.y = y
             self.placed = True
         else:
-            raise ValueError("Initial position "+str(x)+","+str(y)+"Out of range.")
+            raise ValueError("Initial position "+str(x)+","+str(y)+" Out of range.")
 
     def report(self):
         if self.placed:
@@ -77,19 +77,16 @@ class RobotPlaceCommand(RobotCommand):
         can't check that but will throw exceptions on wrong types x, y or f (facing)'''
     def __init__(self, args):
         parameters = args.split(",")
-        print("parameters=", parameters)
         self.x = int(parameters[0])
         self.y = int(parameters[1])
         self.f = CompassDirections(parameters[2])
 
     def execute(self,robot):
         robot.place(self.x, self.y, self.f)
-        print("Robot placed")
 
 class RobotReportCommand(RobotCommand):
     def execute(self, robot):
         robot.report()
-        #print("REPORT ", robot.x, robot.y, robot.direction)
 
 class RobotMoveCommand(RobotCommand):
     def execute(self, robot):
@@ -105,23 +102,18 @@ class RobotRotateRightCommand(RobotCommand):
 
 class RobotCommandMakers:
     def handle_place(self, args):
-        print("handle_place" , args)
         return RobotPlaceCommand(args)
 
     def handle_move(self, args):
-        print("handle move")
         return RobotMoveCommand(args)
 
     def handle_left(self, args):
-        print("handle left")
         return RobotRotateLeftCommand(args)
 
     def handle_right(self, args):
-        print("handle right")
         return RobotRotateRightCommand(args)
 
     def handle_report(self, args):
-        print("handle report")
         return RobotReportCommand(args)
 
     command_list =  {

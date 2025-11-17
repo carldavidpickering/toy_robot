@@ -14,22 +14,22 @@ class CommandLineInterface:
 
     def process_command(self):
         command_line = self.input_file.readline()
-        print("Receved ", command_line)
         command_line = command_line.rstrip()
         if command_line == "EXIT":
             return False
         try:
            command_object = self.command_factory.command_parser(command_line)
-           command_object.execute(self.robot)
+           if command_object!=None:
+               command_object.execute(self.robot)
         except KeyError as e:
-            self.error_file.write("ERROR: Command not recognised:"+command_line)
+            self.error_file.write("ERROR: Command not recognised:"+command_line+"\n")
         except Exception as e:
-            self.error_file.write("ERROR: Other error:"+e.__str__())
+            self.error_file.write("ERROR: Other error: "+e.__str__()+"\n")
         return True
 
 
 if __name__=="__main__":
     processing_commands = True
-    cli = CommandLineInterface() 
+    cli = CommandLineInterface(stdin, stdout, stdout) 
     while cli.process_command():
-        print("DONE")
+        print(">")
