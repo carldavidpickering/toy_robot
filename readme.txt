@@ -9,7 +9,7 @@ This is a toy robot simulator. To start it run:
 
 python3 src/toy_robot_simulator.py
 
-commands
+Commands
 ========
 The commands are:
 
