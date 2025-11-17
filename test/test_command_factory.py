@@ -19,7 +19,7 @@ class DummyCommandMakers:
         "b"  : handle_b
     }
 
-def test_constructor():
+def test_factory():
     cof = CommandObjectFactory(DummyCommandMakers().command_list)
     f = cof.command_parser("a")
     assert(f == function_a)
