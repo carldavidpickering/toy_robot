@@ -1,5 +1,5 @@
 """
-command_line_interface
+toy_robot_simulator
 
 A basic command line interface to allow for user interaction.
 Carl Pickering 17th November 2025

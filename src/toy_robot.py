@@ -70,7 +70,7 @@ class RobotCommand(ABC):
 
     @abstractmethod
     def execute(self, robot):
-        '''This each execute goes in here.'''
+        '''Derived classes need to implement this function to execute the commands.'''
 
 class RobotPlaceCommand(RobotCommand):
     ''' This class processes the PLACE command. We don't yet know the size of the table so 
@@ -100,7 +100,13 @@ class RobotRotateRightCommand(RobotCommand):
     def execute(self, robot):
         robot.turn_right()
 
+
+
 class RobotCommandMakers:
+    '''
+    This provides constructors for all the robot commands. It may raise 
+    exceptions.
+    '''
     def handle_place(self, args):
         return RobotPlaceCommand(args)
 
