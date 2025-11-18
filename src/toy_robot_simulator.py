@@ -5,7 +5,7 @@ A basic command line interface to allow for user interaction.
 Carl Pickering 17th November 2025
 """
 from sys import stdin, stdout, stderr
-from toy_robot import Robot, CommandObjectFactory, RobotCommandMakers
+from toy_robot import Robot, CommandObjectFactory, RobotCommandMakers, RobotController
 from table import Table
 
 class CommandLineInterface:
@@ -17,7 +17,8 @@ class CommandLineInterface:
 
         self.table = Table(5,5)
         self.robot = Robot(self.table)
-        self.command_factory = CommandObjectFactory(RobotCommandMakers().command_list)
+        #self.command_factory = CommandObjectFactory(RobotCommandMakers().command_list)
+        self.robot_controller = RobotController(RobotController.command_list, self.robot)
 
     def process_command(self):
         command_line = self.input_file.readline()
@@ -25,9 +26,7 @@ class CommandLineInterface:
         if command_line == "EXIT":
             return False
         try:
-            command_object = self.command_factory.command_parser(command_line)
-            if command_object is not None:
-                command_object.execute(self.robot)
+            self.robot_controller.command_parser(command_line)
         except KeyError:
             self.error_file.write("ERROR: Command not recognised:"+command_line+"\n")
         except Exception as e:

@@ -102,25 +102,31 @@ class RobotRotateRightCommand(RobotCommand):
 
 
 
-class RobotCommandMakers:
+class RobotController:
     '''
-    This provides constructors for all the robot commands. It may raise 
-    exceptions.
+    This controls the robot
     '''
-    def handle_place(self, args):
-        return RobotPlaceCommand(args)
+    def __init__(self, the_robot):
+        self.the_robot = the_robot
+
+    def handle_place(self, args):        
+        parameters = args.split(",")
+        x = int(parameters[0])
+        y = int(parameters[1])
+        f = CompassDirections(parameters[2])
+        self.the_robot.place(x, y, f)
 
     def handle_move(self, args):
-        return RobotMoveCommand(args)
+        self.the_robot.move()
 
     def handle_left(self, args):
-        return RobotRotateLeftCommand(args)
+        self.the_robot.turn_left()
 
     def handle_right(self, args):
-        return RobotRotateRightCommand(args)
+        self.the_robot.turn_right()
 
     def handle_report(self, args):
-        return RobotReportCommand(args)
+        self.the_robot.report()
 
     command_list =  {
         "PLACE" : handle_place,
@@ -129,6 +135,31 @@ class RobotCommandMakers:
         "RIGHT" : handle_right,
         "REPORT" : handle_report
     }
+
+    def command_parser(self, commandline):
+        ''' Take in command line and return command object to process it. The
+        command object doesn't know the status of the robot before parsing. 
+        Processing is handled separately. This way if necessary commands could
+        be queued up.
+        If the command is not recognised or blank it is ignored.
+        
+        The command is expected in the form:
+        
+        COMMAND <PARAMETERS>
+
+        We split the command off from the parameters to work out what it is.
+        '''
+        if len(commandline)>0:
+            separated_command = commandline.split()
+            if len(separated_command)==0:
+                return None
+            if len(separated_command)==1:
+                args=""
+            else:
+                args = separated_command[1]
+
+            handler = self.command_list[separated_command[0]]
+            handler(self,args)
 
 
 
